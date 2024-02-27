@@ -1,0 +1,47 @@
+---
+title: "C1Team6SeedGerminAnalysis"
+author: "Lia"
+date: "2024-02-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load the packages. 
+
+```{r}
+library(curl)
+library(tidyr)
+library(ggplot2)
+library(dplyr)
+library(ggpubr)
+```
+
+Assign data to variables. 
+```{r}
+f <- curl("https://raw.githubusercontent.com/cbao2397/DataStorage/main/C1Team6Mockup.csv")
+d <- read.csv(f, header=TRUE, sep=",", stringsAsFactors=FALSE)
+head(d)
+```
+Graphing. 
+```{r}
+g <- ggplot(data=d, mapping=aes(x=factor(Group, level=c('Zero', 'Five', 'Fifteen', 'Twenty-five')), y=Length)) + 
+  geom_boxplot() + 
+  labs(x="Number of Sprays Every Visit", y="Root Length of Seeds (cm)")
+g
+```
+
+Anova. 
+```{r}
+one.way <- aov(Length ~ Group, data=d)
+summary(one.way)
+```
+According to the returned result, p-value is 6.88e-10. P-value < 0.05. 
+
+
+
+
+
+
